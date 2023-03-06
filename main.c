@@ -52,7 +52,6 @@ long int getNumChars(const char* filename){
 	return count;
 }
 
-
 int main(int argc, char *argv[]){
 	long filelength = getNumChars(argv[1]);
 	long keylength = getNumChars(argv[2]);
