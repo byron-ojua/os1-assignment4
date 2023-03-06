@@ -54,9 +54,16 @@ dkms.conf
 # Project Files
 smallsh
 __MACOSX
-basicp5testscript
-p5testscript
+*testscript*
 junk*
 mytestresults
 testing
 .vscode
+plaintext*
+enc_server
+enc_client
+dec_server
+dec_client
+keygen
+mykey
+randport*
