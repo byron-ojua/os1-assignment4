@@ -8,5 +8,7 @@
 #include <sys/types.h>  // ssize_t
 #include <sys/socket.h> // send(),recv()
 #include <netdb.h>      // gethostbyname()
+#include <fcntl.h>
+
 
 #endif // !ENC_CLIENT_H

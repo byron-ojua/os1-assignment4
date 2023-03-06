@@ -1,4 +1,10 @@
-#include "header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 // Error function used for reporting issues
 void error(const char *msg) {
@@ -66,6 +72,15 @@ int main(int argc, char *argv[]){
                           ntohs(clientAddress.sin_addr.s_addr),
                           ntohs(clientAddress.sin_port));
 
+
+
+// ---------------- Add custom code here ---------------------
+
+
+
+
+
+
     // Get the message from the client and display it
     memset(buffer, '\0', 256);
     // Read the client's message from the socket
@@ -84,6 +99,10 @@ int main(int argc, char *argv[]){
     // Close the connection socket for this client
     close(connectionSocket); 
   }
+
+// ---------------- End custom code here ----------------------
+
+
   // Close the listening socket
   close(listenSocket); 
   return 0;

@@ -20,8 +20,8 @@ test:
 
 testscript-basic:
 	clear
-	gcc --std=gnu99 -o smallsh main.c
-	./basicp3testscript 2>&1
+	make
+	./p5testscript-basic 55000 55001
 
 leak-test:
 	clear
@@ -32,7 +32,7 @@ gdb-test:
 	clear
 	echo Run GDB with 'run'
 	gcc -g --std=gnu99 -o smallsh main.c
-	gdb ./smallsh
+	gdb ./smallsh 
 
 rand-test:
 	clear

@@ -1,4 +1,10 @@
-#include "enc_client.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>  // ssize_t
+#include <sys/socket.h> // send(),recv()
+#include <netdb.h>      // gethostbyname()
 
 /**
 * Client code
@@ -55,12 +61,22 @@ int main(int argc, char *argv[]) {
   }
 
    // Set up the server address struct
-  setupAddressStruct(&serverAddress, atoi(argv[2]), argv[1]);
+  // setupAddressStruct(&serverAddress, atoi(argv[2]), argv[1]);
+  setupAddressStruct(&serverAddress, atoi(argv[3]), "localhost");
 
   // Connect to server
   if (connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0){
     error("CLIENT: ERROR connecting");
   }
+
+
+
+// ----------- Add custom code below here ----------------
+
+
+
+
+
   // Get input message from user
   printf("CLIENT: Enter text to send to the server, and then hit enter: ");
   // Clear out the buffer array
@@ -89,6 +105,13 @@ int main(int argc, char *argv[]) {
     error("CLIENT: ERROR reading from socket");
   }
   printf("CLIENT: I received this from the server: \"%s\"\n", buffer);
+
+
+
+
+// ---------------- End custom code here ---------------
+
+
 
   // Close the socket
   close(socketFD); 
