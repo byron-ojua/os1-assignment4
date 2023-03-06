@@ -1,34 +1,27 @@
 # build an executable named movies_by_year from main.c
 all: main.c 
-	gcc --std=gnu99 -o smallsh main.c
+	gcc --std=gnu99 -o enc_server enc_server.c
+	gcc --std=gnu99 -o enc_client enc_client.c
+	gcc --std=gnu99 -o dec_server dec_server.c
+	gcc --std=gnu99 -o dec_client dec_client.c
+	gcc --std=gnu99 -o keygen keygen.c
 
 clean: 
-	rm smallsh
+	rm enc_server
+	rm enc_client
+	rm dec_server
+	rm dec_client
+	rm keygen
 
 test:
 	clear
 	gcc --std=gnu99 -o smallsh main.c
-	./smallsh
+	./p5testscript-1
 
 testscript-basic:
 	clear
 	gcc --std=gnu99 -o smallsh main.c
 	./basicp3testscript 2>&1
-
-testscript-1:
-	clear
-	gcc --std=gnu99 -o smallsh main.c
-	./p3testscript 2>&1
-
-testscript-2:
-	clear
-	gcc --std=gnu99 -o smallsh main.c
-	./p3testscript 2>&1 | more
-
-testscript-3:
-	clear
-	gcc --std=gnu99 -o smallsh main.c
-	./p3testscript > mytestresults 2>&1 
 
 leak-test:
 	clear
@@ -40,3 +33,13 @@ gdb-test:
 	echo Run GDB with 'run'
 	gcc -g --std=gnu99 -o smallsh main.c
 	gdb ./smallsh
+
+rand-test:
+	clear
+	gcc --std=gnu99 -o randport randport.c
+	./randport
+
+keygen:
+	clear
+	gcc --std=gnu99 -o keygen keygen.c
+	./keygen
