@@ -14,6 +14,14 @@ s:
 	gcc --std=gnu99 -o enc_server enc_server.c
 	gcc --std=gnu99 -o dec_server dec_server.c
 
+e:
+	gcc --std=gnu99 -o enc_server enc_server.c
+	gcc --std=gnu99 -o enc_client enc_client.c
+
+d:
+	gcc --std=gnu99 -o dec_server dec_server.c
+	gcc --std=gnu99 -o dec_client dec_client.c
+
 clean: 
 	rm enc_server
 	rm enc_client
