@@ -1,0 +1,21 @@
+#!/bin/bash
+# FYI, this command removes file abc if it is empty: [ -s abc ] || rm -f abc
+
+usage="usage: $0 encryptionport decryptionport"
+
+#use the standard version of echo
+echo=/bin/echo
+
+#Clean up any previous runs
+${echo} '#Initializing - Cleaning up - ignore Operation Not Permitted errors'
+${echo} '#Note: this script requires that the current directory (.) be in your PATH in ~/.bashrc'
+killall -q -u $USER dec_client
+killall -q -u $USER dec_server
+killall -q -u $USER enc_client
+killall -q -u $USER enc_server
+rm -f ciphertext*
+rm -f plaintext*_*
+rm -f key20
+rm -f key70000
+${echo}
+${echo} '#SCRIPT COMPLETE'

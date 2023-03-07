@@ -67,3 +67,5 @@ dec_client
 keygen
 mykey
 randport*
+.nfs*
+myshortkey
