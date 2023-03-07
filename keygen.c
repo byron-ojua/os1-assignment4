@@ -4,11 +4,15 @@
 #include <unistd.h>
 #include <time.h>
 
+// Error function used for reporting issues
+void error(const char *msg) { 
+    perror(msg); 
+    exit(1); 
+} 
+
 int main(int argc, char *argv[]){
-    if (argc < 2)
-    {
-        printf("You must provide the length of your key\n");
-        return EXIT_FAILURE;
+    if (argc < 2){
+        error("You must provide the length of your key");
     }
     srand(time(NULL));
 
