@@ -65,3 +65,6 @@ processes:
 
 kill:
 	./killFiles
+
+kill-all:
+	ps -ef | grep niceb | awk '{print $2}' | xargs kill -9 {} \;
