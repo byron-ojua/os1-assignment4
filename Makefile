@@ -38,19 +38,14 @@ testscript-mostbasic:
 
 leak-test:
 	clear
-	gcc --std=gnu99 -o smallsh main.c
-	valgrind --leak-check=yes ./smallsh
+	make
+	valgrind --leak-check=yes ./enc_server 60000 &
 
 gdb-test:
 	clear
 	echo Run GDB with 'run'
-	gcc -g --std=gnu99 -o smallsh main.c
-	gdb ./smallsh 
-
-rand-test:
-	clear
-	gcc --std=gnu99 -o randport randport.c
-	./randport
+	make
+	gdb ./enc_server 60000 &
 
 keygen:
 	clear
