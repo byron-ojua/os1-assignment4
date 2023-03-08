@@ -1,4 +1,3 @@
-# build an executable named movies_by_year from main.c
 all: main.c 
 	gcc --std=gnu99 -o enc_server enc_server.c
 	gcc --std=gnu99 -o enc_client enc_client.c
