@@ -180,7 +180,7 @@ int main(int argc, char *argv[]) {
                 totalSent += charsWritten;
             }
 
-            if (charsWritten < strlen(buffer)){
+            if (totalSent < strlen(buffer)){
                 error("CLIENT: WARNING: Not all data written to socket!\n");
             }
 

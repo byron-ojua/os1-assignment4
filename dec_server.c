@@ -198,6 +198,11 @@ int main(int argc, char *argv[]){
                         }
                         totalSent += charsWritten;
                     }
+
+                    if (totalSent < strlen(message)){
+                        error("CLIENT: WARNING: Not all data written to socket!\n");
+                    }
+
                     // printf("SERVER: Sent\n");
                     fflush(stdout);
 
