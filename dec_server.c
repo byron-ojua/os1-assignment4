@@ -9,12 +9,21 @@
 #define SERVER_TYPE "dec_server"
 #define CLIENT_TYPE "dec_client"
 
-// Error function used for reporting issues
+/**
+ * @brief Prints error message to stderr
+ * 
+ * @param msg message to print
+ */
 void error(const char *msg) {
     perror(msg);
 } 
 
-// Set up the address struct for the server socket
+/**
+ * @brief Set up the address struct for the server socket
+ * 
+ * @param address 
+ * @param portNumber 
+ */
 void setupAddressStruct(struct sockaddr_in* address, int portNumber){
     // Clear out the address struct
     memset((char*) address, '\0', sizeof(*address)); 
@@ -27,26 +36,48 @@ void setupAddressStruct(struct sockaddr_in* address, int portNumber){
     address->sin_addr.s_addr = INADDR_ANY;
 }
 
+/**
+ * @brief Finds offset value of character
+ * 
+ * @param c original value of 
+ * @return int offset value for new char
+ */
 int charToInt (char c){
 	if (c == ' ') return 26;
 	else return (c - 'A');
 }
 
+/**
+ * @brief Converts offset value to real value
+ * 
+ * @param i offset value
+ * @return char ASCII value of converted char
+ */
 char intToChar(int i){
 	if (i == 26) return ' ';
 	else return (i + 'A');
 }
 
+/**
+ * @brief decodes message using encryption key
+ * 
+ * @param message message to decode
+ * @param key encryption key
+ */
 void decode(char* message, char* key){
     for (int i=0; i < strlen(message); i++){
         char n = charToInt(message[i]) - charToInt(key[i]);
-        if (n<0){
-            n += 27;
-        }
+        if (n<0) n += 27;
         message[i] = intToChar(n);
     }
 }
 
+/**
+ * @brief reads the number of chars in a file
+ * 
+ * @param filename file to check
+ * @return long int number of chars in file
+ */
 long int getNumChars(const char* filename){
 	int character;
 	long int count = 0;
@@ -101,31 +132,14 @@ int main(int argc, char *argv[]){
             error("ERROR on accept");
         }
 
-        // ---------------- Add custom code here ---------------------
-
-        // printf("SERVER: Reading client_type\n");
-        // fflush(stdout);
+        // Check if connecting client is dec_client
         char client_type[20];
         recv(connectionSocket, client_type, 20, 0);
-        // printf("SERVER: client_type read\n");
-        // fflush(stdout);
-
-        // printf("SERVER: Sending server_type\n");
-        // fflush(stdout);
         send(connectionSocket, SERVER_TYPE, 19, 0);
-        // printf("SERVER: Sent server_type\n");
-        // fflush(stdout);
-
-        // printf("SERVER: client_type is %s\n", client_type);
         fflush(stdout);
 
+        // If correct client
         if (strcmp(client_type, CLIENT_TYPE) == 0){
-            // printf("SERVER: client_type okay\n");
-            fflush(stdout);
-            // printf("SERVER: Connected to client running at host %d port %d\n", ntohs(clientAddress.sin_addr.s_addr), ntohs(clientAddress.sin_port));
-            fflush(stdout);
-
-            // ----------- FORK ---------------
             pid_t spawnpid = -5;
             spawnpid = fork();
 
@@ -146,7 +160,6 @@ int main(int argc, char *argv[]){
                     memset(buffer, '\0', sizeof(buffer));
 
                     // Read the client's message from the socket
-                    // printf("SERVER: Reading\n");
                     int totalRead = 0;
                     while (strstr(buffer, "\n") == NULL) {
                         charsRead = recv(connectionSocket, &buffer[totalRead], 1000, 0); 
@@ -157,12 +170,8 @@ int main(int argc, char *argv[]){
                         totalRead += charsRead;
                     }
 
-                    // printf("SERVER: Recived\n");
-
                     fflush(stdout);
                     buffer[strcspn(buffer, "\n")] = '\0'; 
-
-                    // printf("SERVER: I received this from the client: \"%s\"\n", buffer);
 
                     // Token type, key, and message
                     char *saveptr;
@@ -174,21 +183,14 @@ int main(int argc, char *argv[]){
                     
                     token = strtok_r(NULL, ",", &saveptr);
                     strcpy(message, token);
-                    // printf("Type: %s\nKey: %s\nMessage: %s\n", type, key, message);
-                    // fflush(stdout);
 
-                    // printf("SERVER: Encoding\n");
                     decode(message, key);
-                    // printf("ENCMSG: %s\n\n", message);
                     fflush(stdout);
-                    // printf("SERVER: Encoded\n");
                     strcat(message, "\n");
 
-                    // fflush(stdout);
-
-                    // printf("SERVER: Sending\n");
                     fflush(stdout);
 
+                    // Send decodded message
                     int totalSent = 0, charsWritten = 0;
                     while(totalSent < strlen(message)) {
                         charsWritten = send(connectionSocket, &message[totalSent], 1000, 0); 
@@ -203,24 +205,19 @@ int main(int argc, char *argv[]){
                         error("CLIENT: WARNING: Not all data written to socket!\n");
                     }
 
-                    // printf("SERVER: Sent\n");
                     fflush(stdout);
-
                     close(connectionSocket);
                     exit(0);
                     break;
-                }
+                } // If parent
                 default:
                     break;
             }
         }
         
-        // Close the connection socket for this client
         close(connectionSocket); 
     }
 
-    // ---------------- End custom code here ----------------------
-    // Close the listening socket
     close(listenSocket); 
     return 0;
 }
