@@ -31,23 +31,23 @@ clean:
 
 test:
 	clear
-	gcc --std=gnu99 -o smallsh main.c
-	./p5testscript 55000 55001
+	make
+	./p5testscript 61000 61001
 
 testscript-basic:
 	clear
 	make
-	./p5testscript-basic 55000 55001
+	./p5testscript-basic 61000 61001
 
 testscript-mostbasic:
 	clear
 	make
-	./p5testscript-mostbasic 55000 55001
+	./p5testscript-mostbasic 61000 61001
 
 leak-test:
 	clear
 	make
-	valgrind --leak-check=yes ./enc_server 60000 &
+	valgrind --leak-check=yes ./enc_server 61000 &
 
 gdb-test:
 	clear
